@@ -6,3 +6,8 @@ l.append((876, 456))
 l.append((675, 345))
 d = SvgPath(123, "simple", l).render()
 print(d)
+
+from db import ProjectDb
+db = ProjectDb(".exp/twelve/database.db")
+print(db.get_elements())
+print(db.get_layers())
