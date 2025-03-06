@@ -15,6 +15,14 @@ print(db.get_elements())
 print(db.get_layers())
 """
 
+"""
 from db import DbUpgrader
 upg = DbUpgrader("dev/upg.db")
 upg.upgrade()
+"""
+
+from db import ProjectDb
+from svg import ProjectRenderer
+pd = ProjectDb("dev/database.db").get_elements()
+rs = ProjectRenderer().render(pd)
+print(rs)

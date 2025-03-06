@@ -1,2 +1,2 @@
-from .path import SvgPath
+from .renderer import ProjectRenderer
 from .default import *

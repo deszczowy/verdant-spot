@@ -11,7 +11,7 @@ class SvgPath(SvgBaseObject):
 
     def render(self) -> str:
         d = self._get_path_d()
-        return TEMPLATES["path"].format(element_id=self.identifier, d=d, style=self.style_class)
+        return TEMPLATES["PATH"].format(element_id=self.identifier, d=d, style=self.style_class)
 
     def _get_path_d(self):
         if len(self.points) == 0:
