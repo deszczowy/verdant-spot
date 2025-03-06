@@ -1,5 +1,6 @@
 from .layer import SvgLayer
 from .path import SvgPath
+from .circle import SvgCircle
 from .base import SvgBaseObject
 
 class ProjectRenderer:
@@ -61,4 +62,5 @@ class ProjectRenderer:
     
     def _build(self) -> SvgBaseObject:
         match self.current["kind"]:
-            case "TR" | "SH": return SvgPath(self.current["id"], self.current["kind"], self.path)
+            case "TR" | "SH": return SvgCircle(self.current["id"], self.current["kind"], self.current["caption"], self.path)
+            case "GR" | "BD" | "SC": return SvgPath(self.current["id"], self.current["kind"], self.path)
