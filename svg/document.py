@@ -1,5 +1,5 @@
 from .templates import TEMPLATES
-from .classes import CLASSESS
+from .classes import CLASSES
 from .kind import Kind
 from .base import SvgBaseObject
 from .layer import SvgLayer
@@ -40,11 +40,11 @@ class SvgDocument(SvgBaseObject):
             y1=self.top,
             styles=s, 
             id=self.identifier, 
-            content=self.content
+            content=content
         )
     
     def _get_styles(self) -> str:
         s = ""
-        for c in CLASSESS:
-            s += c
+        for c in CLASSES:
+            s += CLASSES[c]
         return s
