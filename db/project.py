@@ -2,6 +2,17 @@ from .client import DbBaseClient
 
 class ProjectDb(DbBaseClient):
     QUERIES = {
+        "get_info": """
+        select
+            i.name,
+            i.description,
+            i.author,
+            i.border_left,
+            i.border_right,
+            i.border_bottom,
+            i.border_top
+        from info as i""",
+
         "get_elements": """
         select
             l.id as [layer_id],
@@ -58,5 +69,10 @@ class ProjectDb(DbBaseClient):
     def get_kinds(self) -> list[dict]:
         return self.execute_select(self.QUERIES["get_kinds"])
 
+    def get_info(self) -> list[dict]:
+        info = self.execute_select(self.QUERIES["get_info"])
+        return info[0]
+
     def get_elements_on_layer(self, layer_id: int) -> list[dict]:
         return self.execute_select(self.QUERIES["get_elements_on_layer"], (layer_id,))
+    

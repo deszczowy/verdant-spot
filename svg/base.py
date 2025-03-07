@@ -13,5 +13,7 @@ class SvgBaseObject:
             prefix = "L"
         elif self.kind == Kind.Element:
             prefix = "E"
+        elif self.kind == Kind.Document:
+            prefix = "D"
         
         self.identifier = "{p}{i}".format(p=prefix, i=self.id)

@@ -22,7 +22,9 @@ upg.upgrade()
 """
 
 from db import ProjectDb
-from svg import ProjectRenderer
-pd = ProjectDb("dev/database.db").get_elements()
-rs = ProjectRenderer().render(pd)
+from svg import ProjectBuilder
+pd = ProjectDb("dev/database.db")
+elements = pd.get_elements()
+info = pd.get_info()
+rs = ProjectBuilder().build(info, elements)
 print(rs)

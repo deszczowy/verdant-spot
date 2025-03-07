@@ -1,2 +1,2 @@
-from .renderer import ProjectRenderer
+from .builder import ProjectBuilder
 from .default import *

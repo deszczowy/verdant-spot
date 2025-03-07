@@ -1,9 +1,10 @@
 from .layer import SvgLayer
 from .path import SvgPath
 from .circle import SvgCircle
+from .document import SvgDocument
 from .base import SvgBaseObject
 
-class ProjectRenderer:
+class ProjectBuilder:
 
     def __init__(self):
         # gathering data
@@ -13,28 +14,22 @@ class ProjectRenderer:
         self.current = None
 
         # structure of data
-        self.layers = []
-
-        # results
-        self.rendered_svg = ""
+        self.document = SvgDocument()
     
-    def render(self, data: list[dict]) -> str:
-        #print(data)
+    def build(self, info: dict, data: list[dict]) -> SvgDocument:
+        self.document.setup(info)
         for e in data:
             self.current = e
             self._new_layer()
             self._new_element()
         self._build_last()
-
-        for l in self.layers:
-            self.rendered_svg += l.render()
-        return self.rendered_svg
+        return self.document
 
     def _new_layer(self) -> None:
         id = self.current["layer_id"]
         if id > self.layer:
             self.layer = id
-            self.layers.append(SvgLayer(id))
+            self.document.add_layer(SvgLayer(id))
 
     def _new_element(self) -> None:
         if self.current["id"] != self.element:
@@ -58,7 +53,7 @@ class ProjectRenderer:
     def _build_last(self):
         if self.element > 0:
             e = self._build()
-            self.layers[-1].put(e)
+            self.document.put_on_last_layer(e)
     
     def _build(self) -> SvgBaseObject:
         match self.current["kind"]:
