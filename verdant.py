@@ -1,9 +1,9 @@
 import sys
 from PyQt5.QtWidgets import QApplication
-from view import VerdantMainView
+from supervisor import Supervisor
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    view = VerdantMainView()
-    view.show()
+    s = Supervisor()
+    s.run()
     sys.exit(app.exec_())

@@ -1,12 +1,16 @@
 import sys
-from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout,
-                            QPushButton, QHBoxLayout, QLabel)
+from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLabel
 from PyQt5.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QFont, QCursor
+from PyQt5.QtCore import pyqtSignal, pyqtSlot
+
 
 from .preview import MapPreview
 
 class VerdantMainView(QMainWindow):
+
+    project_opened = pyqtSignal(str)
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("VerdantSpot")
@@ -53,6 +57,7 @@ class VerdantMainView(QMainWindow):
             font = QFont()
             font.setBold(True)
             btn.setFont(font)
+            btn.clicked.connect(self.btn_click)
             menu_layout.addWidget(btn)
         menu_layout.addStretch()
 
@@ -128,3 +133,14 @@ class VerdantMainView(QMainWindow):
     def resizeEvent(self, event):
         self.menu_widget.setFixedHeight(self.height())
         super().resizeEvent(event)
+    
+    def btn_click(self) -> None:
+        name = "dev/database.db"
+        self.project_opened.emit(name)
+    
+    @pyqtSlot(str)
+    def update_title(self, new_title: str = None) -> None:
+        caption = "Verdant Spot"
+        if new_title != None:
+            caption += ": {}".format(new_title)
+        self.setWindowTitle(caption)
