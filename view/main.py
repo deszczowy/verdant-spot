@@ -4,8 +4,9 @@ from PyQt5.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QFont, QCursor
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
-
+from .icons import ICONS
 from .preview import MapPreview
+from svg import as_icon
 
 class VerdantMainView(QMainWindow):
 
@@ -49,14 +50,17 @@ class VerdantMainView(QMainWindow):
                     color: white;
                     border: none;
                     padding: 10px;
+                    text-align: left;
                 }
                 QPushButton:hover {
                     background-color: darkred;
                 }
             """)
+            icon = as_icon(ICONS["DEFAULT"])
             font = QFont()
             font.setBold(True)
             btn.setFont(font)
+            btn.setIcon(icon)
             btn.clicked.connect(self.btn_click)
             menu_layout.addWidget(btn)
         menu_layout.addStretch()
