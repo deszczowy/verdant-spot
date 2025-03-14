@@ -1,4 +1,4 @@
-class Command:
+class VCommand:
     VerdantSpotStart = "@VS"
     NextLayer = "@NL"
     Name = "@NM"

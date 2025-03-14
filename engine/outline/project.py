@@ -3,12 +3,13 @@ from .layertype import VLayerType
 from .kindtype import VKindType
 from .info import VInfo
 from .layer import VLayer
+from .list import VList
 
 class VProject(VBase):
-    layer_dictionary: list[VLayerType] = []
-    kind_dictionary: list[VKindType] = []
+    layer_dictionary: VList[VLayerType] = VList()
+    kind_dictionary: VList[VKindType] = VList()
     Info = VInfo()
-    Layers: list[VLayer] = []
+    Layers: VList[VLayer] = VList()
 
     def to_debug(self) -> str:
         i = self.Info.to_debug()
