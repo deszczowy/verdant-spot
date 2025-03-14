@@ -1,11 +1,12 @@
 from .base import VBase
+from .list import VList
 from .object import VObject
 
 class VLayer(VBase):
     def __init__(self, label: str) -> None:
         super().__init__()
         self.Label: str = label
-        self.Objects: list[VObject] = []
+        self.Objects: VList[VObject] = VList()
         self._set_valid()
     
     def to_debug(self) -> str:

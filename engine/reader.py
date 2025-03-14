@@ -87,21 +87,14 @@ class VReader:
     def __store_layer_dictionary_entry(self) -> None:
         entry = VLayerType()
         entry.from_data_string(self.data)
-
-        print(entry.to_debug())
-        if entry.is_valid():
-            self.project.layer_dictionary.append(entry)
+        self.project.layer_dictionary.append(entry)
         self.__finalize_command()
 
     def __store_object_kind_dictionary_entry(self) -> None:
-        entry_data = self.data.split(":")
-        try:
-            symbol = entry_data[0]
-            label = entry_data[1]
-
-            self.project.kind_dictionary.append(VKindType(symbol, label))
-        finally:
-            self.__finalize_command()
+        entry = VKindType()
+        entry.from_data_string(self.data)
+        self.project.kind_dictionary.append(entry)
+        self.__finalize_command()
     
     def __process_dictionaries(self) -> None:
         self.project.layer_dictionary.sort(key=lambda x: x.Position)
