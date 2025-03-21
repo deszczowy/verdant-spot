@@ -56,6 +56,7 @@ class VReader:
         self.work = False
 
     def __jump_to_next_layer(self) -> None:
+        print("jump")
         self.layer_index += 1
         if self.layer_index >= len(self.project.Layers):
             print("EXCEPTION")
@@ -98,26 +99,26 @@ class VReader:
     
     def __process_dictionaries(self) -> None:
         self.project.layer_dictionary.sort(key=lambda x: x.Position)
-        self.project.Layers = []
+        self.project.Layers = VList()
 
         for layer_definition in self.project.layer_dictionary:
-            self.project.Layers.append(VLayer(layer_definition.Label))
+            layer = VLayer()
+            layer.from_data_string(layer_definition.Label)
+            self.project.Layers.append(layer)
 
     def __store_object_in_current_layer(self) -> None:
         data = self.data.split(":")
         try:
+            print("store in {}, {}, {}".format(self.layer_index, data, self.project.Layers[self.layer_index].Objects))
             self.project.Layers[self.layer_index].Objects.append(VObject(data[1], data[0]))
         finally:
             self.__finalize_command()
             
     def __store_point_in_current_object(self)-> None:
-        data = self.data.split(",")
-        try:
-            x = float(data[0])
-            y = float(data[1])
-            self.project.Layers[self.layer_index].Objects[-1].Points.append(VPoint(x,y))
-        finally:
-            self.__finalize_command()
+        p = VPoint()
+        p.from_data_string(self.data)
+        self.project.Layers[self.layer_index].Objects[-1].Points.append(p)
+        self.__finalize_command()
     
     def print_debug(self) -> None:
         print(self.project.to_debug())

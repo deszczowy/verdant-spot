@@ -6,3 +6,4 @@ from .kindtype import VKindType
 from .layer import VLayer
 from .object import VObject
 from .point import VPoint
+from .list import VList
