@@ -2,7 +2,7 @@ from outline import *
 
 class VReader:
 
-    def read(self, filename):
+    def read(self, filename) -> VProject:
 
         self.data = ""
         self.project = None
@@ -23,6 +23,7 @@ class VReader:
                 
                 if not self.work:
                     break
+        return self.project
 
     def process(self, cmd):
         match cmd:
@@ -104,8 +105,3 @@ class VReader:
     
     def print_debug(self) -> None:
         print(self.project.to_debug())
-
-filename = ".exp/twelve/data.txt"
-p = VReader()
-p.read(filename)
-p.print_debug()

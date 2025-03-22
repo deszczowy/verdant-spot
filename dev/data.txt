@@ -1,0 +1,64 @@
+@VS
+Projekt testowy
+@NM
+Projekt do testów Verdant Spota.
+Opis może być wieloliniowy, ale ważne, żeby wszystkie 
+\@ zrobić ze znakiem ucieczki.
+@DS
+deszczowy
+@AU
+-100.00
+@BL
+300.00
+@BT
+300.00
+@BR
+-100.00
+@BB
+1:T:Ground
+@LE
+2:T:Buildings
+@LE
+3:T:Vegetables
+@LE
+4:T:Shrubs
+@LE
+5:T:Trees
+@LE
+GR:Ground
+@KE
+BD:Building
+@KE
+SC:Section
+@KE
+SH:Shrub
+@KE
+TR:Tree
+@KE
+@DE
+@NL
+@NL
+@NL
+SH:Porzeczka
+@OB
+0.00,0.00
+@PT
+SH:Malina
+@OB
+150.00,100.00
+@PT
+SH:Jerzyna
+@OB
+200.00,100.00
+@PT
+@NL
+TR:Orzech
+@OB
+250.00,250.00
+@PT
+TR:Czereśnia
+@OB
+100.00,250.00
+@PT
+@FN
+Tutaj już nic nie widać
