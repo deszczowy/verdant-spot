@@ -1,0 +1,3 @@
+from .default import *
+from .icon import as_icon
+from .document import SvgDocument
