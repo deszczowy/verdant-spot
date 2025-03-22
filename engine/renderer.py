@@ -1,5 +1,7 @@
 from outline import VProject
 
+from svg import SvgDocument
+
 class VRenderer:
 
     def __init__(self):
@@ -22,4 +24,11 @@ class VRenderer:
         for l in self.layers:
             d += self.layers[l]
         return "{}{}</svg>".format(self.document, d)
+    
+    def render_document(self) -> None:
+        svg = SvgDocument()
+        self.document = svg.render(self.project)
+    
+    def render_layer(self, layer):
+        pass
         
