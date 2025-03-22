@@ -23,7 +23,7 @@ class VObject(VBase):
             self._set_valid()
     
     def to_debug(self) -> str:
-        d = "{} ({})".format(self.Label, self.Kind)
+        d = "{} ({}) id: {}".format(self.Label, self.Kind, self.id())
         for p in self.Points:
             d += "\n{}".format(p.to_debug())
         return d

@@ -9,6 +9,7 @@ class VInfo(VBase):
 
     def __init__(self) -> None:
         super().__init__()
+        self.set_id(0)
         self._set_valid()
     
     def to_debug(self) -> str:

@@ -14,7 +14,6 @@ class VReader:
                 line = l.rstrip()
 
                 if VTools.is_command(line):
-                    print("Command: {} Data: {}".format(line, self.data))
                     self.process(line)
                 else:
                     d = line

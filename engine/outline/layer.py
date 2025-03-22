@@ -23,4 +23,4 @@ class VLayer(VBase):
         od = ""
         for o in self.Objects:
             od += "\n{}".format(o.to_debug())
-        return "{} ({})\nObjects:{}".format(self.Label, len(self.Objects), od)
+        return "{} ({}) id: {}\nObjects:{}".format(self.Label, len(self.Objects), self.id(), od)

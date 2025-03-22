@@ -12,6 +12,7 @@ class VProject(VBase):
     kind_dictionary: VList[VKindType] = VList()
     Info = VInfo()
     Layers: VList[VLayer] = VList()
+    __counter: int = 0
 
     ### Dictionary entries
 
@@ -37,6 +38,7 @@ class VProject(VBase):
 
         for layer_definition in self.layer_dictionary:
             layer = VLayer()
+            layer.set_id(self.new_id())
             layer.from_data_string(layer_definition.Label)
             self.Layers.append(layer)
     
@@ -47,8 +49,15 @@ class VProject(VBase):
 
     def store_object_in_layer_based_on_datastring(self, layer_id: int, datastring: str) -> None:
         o = VObject()
+        o.set_id(self.new_id())
         o.from_data_string(datastring)
         self.Layers[layer_id].Objects.append(o)    
+
+    ### Maintenance
+
+    def new_id(self) -> int:
+        self.__counter += 1
+        return self.__counter
 
     ### Base class overload
 
