@@ -50,13 +50,11 @@ class VReader:
         self.work = True
         self.project = VProject()
         self.layer_index = 0
-        print("Start")
 
     def __stop(self) -> None:
         self.work = False
 
     def __jump_to_next_layer(self) -> None:
-        print("jump")
         self.layer_index += 1
         if self.layer_index >= len(self.project.Layers):
             print("EXCEPTION")
@@ -86,38 +84,23 @@ class VReader:
             self.__finalize_command()
     
     def __store_layer_dictionary_entry(self) -> None:
-        entry = VLayerType()
-        entry.from_data_string(self.data)
-        self.project.layer_dictionary.append(entry)
+        self.project.add_layer_type_entry_from_datastring(self.data)
         self.__finalize_command()
 
     def __store_object_kind_dictionary_entry(self) -> None:
-        entry = VKindType()
-        entry.from_data_string(self.data)
-        self.project.kind_dictionary.append(entry)
+        self.project.add_object_kind_entry_from_datastring(self.data)
         self.__finalize_command()
     
     def __process_dictionaries(self) -> None:
-        self.project.layer_dictionary.sort(key=lambda x: x.Position)
-        self.project.Layers = VList()
-
-        for layer_definition in self.project.layer_dictionary:
-            layer = VLayer()
-            layer.from_data_string(layer_definition.Label)
-            self.project.Layers.append(layer)
+        self.project.sort_layers_definitions()
+        self.project.rebuild_layers_from_dictionary()
 
     def __store_object_in_current_layer(self) -> None:
-        data = self.data.split(":")
-        try:
-            print("store in {}, {}, {}".format(self.layer_index, data, self.project.Layers[self.layer_index].Objects))
-            self.project.Layers[self.layer_index].Objects.append(VObject(data[1], data[0]))
-        finally:
-            self.__finalize_command()
+        self.project.store_object_in_layer_based_on_datastring(self.layer_index, self.data)
+        self.__finalize_command()
             
     def __store_point_in_current_object(self)-> None:
-        p = VPoint()
-        p.from_data_string(self.data)
-        self.project.Layers[self.layer_index].Objects[-1].Points.append(p)
+        self.project.store_point_in_last_object_of_layer_based_on_datastring(self.layer_index, self.data)
         self.__finalize_command()
     
     def print_debug(self) -> None:
