@@ -36,6 +36,14 @@ SH:Shrub
 TR:Tree
 @KE
 @DE
+GR:Ogród
+@OB
+100.00,100,00
+@PT
+200.00,200.00
+@PT
+300.00,100.00
+@PT
 @NL
 @NL
 @NL

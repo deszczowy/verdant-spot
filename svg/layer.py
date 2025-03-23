@@ -2,6 +2,7 @@ from .templates import TEMPLATES
 from .kind import Kind
 from .base import SvgBaseObject
 from .circle import SvgCircle
+from .path import SvgPath
 from outline import VLayer, VObject
 
 class SvgLayer(SvgBaseObject):
@@ -9,6 +10,7 @@ class SvgLayer(SvgBaseObject):
     def __init__(self):
         super().__init__(Kind.Layer)
         self.circle_renderer = SvgCircle()
+        self.path_renderer = SvgPath()
 
     def render(self, layer_data: VLayer) -> str:
         c = self.__get_content(layer_data)
@@ -23,5 +25,5 @@ class SvgLayer(SvgBaseObject):
     def __get_object(self, object_data: VObject) -> str:
         match object_data.Kind:
             case "TR" | "SH": return self.circle_renderer.render(object_data)
-            #case "GR" | "BD" | "SC": return SvgPath(self.current["id"], self.current["kind"], self.path)
+            case "GR" | "BD" | "SC": return self.path_renderer.render(object_data)
             case _: return "NOT IMPLEMENTED"
