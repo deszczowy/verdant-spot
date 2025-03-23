@@ -1,6 +1,5 @@
-from outline import VProject
-
-from svg import SvgDocument
+from outline import VProject, VLayer
+from svg import SvgDocument, SvgLayer
 
 class VRenderer:
 
@@ -30,5 +29,6 @@ class VRenderer:
         self.document = svg.render(self.project)
     
     def render_layer(self, layer):
-        pass
+        svg = SvgLayer()
+        self.layers[layer.id()] = svg.render(layer)
         
