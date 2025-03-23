@@ -1,1 +1,1 @@
-from .main import VerdantMainView
+from .main import VMainView

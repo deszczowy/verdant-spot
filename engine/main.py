@@ -5,6 +5,7 @@ from .renderer import VRenderer
 class VEngine(QObject):
 
     signal_project_title_updated = pyqtSignal(str)
+    signal_show_project_render = pyqtSignal(str)
 
     def __init__(self) -> None:
         super().__init__()
@@ -17,7 +18,7 @@ class VEngine(QObject):
     def load_project(self, project_file_path: str) -> None:
         self.project_file = project_file_path
         self.project_data = self.reader.read(self.project_file)
-        self.reader.print_debug()
         self.renderer.connect(self.project_data)
-        print(self.renderer.get())
+        
         self.signal_project_title_updated.emit(self.project_data.Info.Name)
+        self.signal_show_project_render.emit(self.renderer.get())

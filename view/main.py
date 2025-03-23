@@ -8,7 +8,7 @@ from .icons import ICONS
 from .preview import MapPreview
 from svg import as_icon
 
-class VerdantMainView(QMainWindow):
+class VMainView(QMainWindow):
 
     project_opened = pyqtSignal(str)
 
@@ -139,7 +139,7 @@ class VerdantMainView(QMainWindow):
         super().resizeEvent(event)
     
     def btn_click(self) -> None:
-        name = "dev/database.db"
+        name = "dev/data.txt"
         self.project_opened.emit(name)
     
     @pyqtSlot(str)
@@ -148,3 +148,8 @@ class VerdantMainView(QMainWindow):
         if new_title != None:
             caption += ": {}".format(new_title)
         self.setWindowTitle(caption)
+    
+    @pyqtSlot(str)
+    def update_preview(self, svg_data: str) -> None:
+        map = bytearray(svg_data, encoding='utf-8')
+        self.main_area.load(map)
