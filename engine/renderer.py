@@ -1,5 +1,5 @@
 from outline import VProject, VLayer
-from svg import SvgDocument, SvgLayer
+from svg import SvgDocument, SvgLayer, SvgCoordinate
 
 class VRenderer:
 
@@ -7,13 +7,18 @@ class VRenderer:
         self.project: VProject = None
         self.document: str = ""
         self.layers: dict = {}
+        self.coordinate: SvgCoordinate = SvgCoordinate()
     
     def connect(self, project: VProject) -> None:
         self.layers = {}
         self.project = project
         self.render()
     
+    def update(self) -> None:
+        self.coordinate.up_to_date_with_project(self.project)
+    
     def render(self) -> None:
+        self.update()
         self.render_document()
         for l in self.project.Layers:
             self.render_layer(l)
@@ -30,5 +35,5 @@ class VRenderer:
     
     def render_layer(self, layer):
         svg = SvgLayer()
-        self.layers[layer.id()] = svg.render(layer)
+        self.layers[layer.id()] = svg.render(layer, self.coordinate)
         
