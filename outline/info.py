@@ -11,11 +11,15 @@ class VInfo(VBase):
         self.Description: str = ""
         self.Author: str = ""
         self.Size: VPoint = VPoint()
+        self.Center: VPoint = VPoint()
         self._set_valid()
     
     def store_map_size_from_datastring(self, datastring: str) -> None:
         self.Size.from_data_string(datastring)
     
+    def store_map_center_from_datastring(self, datastring: str) -> None:
+        self.Center.from_data_string(datastring)
+    
     def to_debug(self) -> str:
-        return "Project\nName: {}\nAuthor: {}\nDescription:\n{}\nSize: {}".format(
-            self.Name, self.Author, self.Description, self.Size.to_debug())
+        return "Project\nName: {}\nAuthor: {}\nDescription:\n {}\nSize:\n {}\nCenter:\n{}".format(
+            self.Name, self.Author, self.Description, self.Size.to_debug(), self.Center.to_debug())

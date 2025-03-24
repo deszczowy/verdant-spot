@@ -33,6 +33,7 @@ class VReader:
             case VCommand.Desctiption: self.__store_description()
             case VCommand.Author: self.__store_author()
             case VCommand.MapSize: self.__store_map_size()
+            case VCommand.Center: self.__store_map_center()
             case VCommand.LayerEntry: self.__store_layer_dictionary_entry()
             case VCommand.KindEntry: self.__store_object_kind_dictionary_entry()
             case VCommand.ProcessDictionaries: self.__process_dictionaries()
@@ -71,6 +72,10 @@ class VReader:
     
     def __store_map_size(self) -> None:
         self.project.Info.store_map_size_from_datastring(self.data)
+        self.__finalize_command()
+    
+    def __store_map_center(self) -> None:
+        self.project.Info.store_map_center_from_datastring(self.data)
         self.__finalize_command()
     
     def __store_border(self, edge: str) -> None:

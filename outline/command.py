@@ -5,6 +5,7 @@ class VCommand:
     Desctiption = "@DS"
     Author = "@AU"
     MapSize = "@MS"
+    Center = "@CT"
     LayerEntry = "@LE"
     KindEntry = "@KE"
     ProcessDictionaries = "@DE"
