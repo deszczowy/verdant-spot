@@ -7,14 +7,8 @@ Opis może być wieloliniowy, ale ważne, żeby wszystkie
 @DS
 deszczowy
 @AU
--100.00
-@BL
-300.00
-@BT
-300.00
-@BR
--100.00
-@BB
+300.00,400.00
+@MS
 1:T:Ground
 @LE
 2:T:Buildings

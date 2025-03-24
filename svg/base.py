@@ -3,7 +3,6 @@ from .kind import Kind
 class SvgBaseObject:
 
     def __init__(self, kind: Kind):
-        self.id = id
         self.kind = kind
 
     def identifier(self, id) -> str:

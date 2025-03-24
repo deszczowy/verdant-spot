@@ -10,16 +10,14 @@ class SvgDocument(SvgBaseObject):
         super().__init__(Kind.Document)
     
     def render(self, project_data: VProject) -> str:
-        w = project_data.Info.Border.Right - project_data.Info.Border.Left
-        h = project_data.Info.Border.Top - project_data.Info.Border.Bottom
         s = self._get_styles()
         return TEMPLATES["DOCUMENT"].format(
-            w=w, 
-            h=h, 
-            x0=project_data.Info.Border.Left, 
-            y0=project_data.Info.Border.Bottom, 
-            x1=project_data.Info.Border.Right,
-            y1=project_data.Info.Border.Top,
+            w=project_data.Info.Size.X, 
+            h=project_data.Info.Size.Y,
+            x0=0, 
+            y0=0, 
+            x1=project_data.Info.Size.X,
+            y1=project_data.Info.Size.Y,
             styles=s, 
             id=self.identifier(project_data.id())
         )
