@@ -24,3 +24,6 @@ class VPoint(VBase):
 
     def to_debug(self) -> str:
         return "({}, {})".format(self.X, self.Y)
+
+    def to_store(self) -> str:
+        return "{x:.2f},{y:.2f}".format(x=self.X, y=self.Y)
