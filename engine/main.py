@@ -26,4 +26,4 @@ class VEngine(QObject):
 
     @pyqtSlot(str)
     def store_project(self, project_file_path: str) -> None:
-        VSaver()
+        VSaver().store(self.project_data, project_file_path)
