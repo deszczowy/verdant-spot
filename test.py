@@ -1,5 +1,6 @@
 from engine import VEngine
 
-filename = "dev/data.txt"
+file_name = "dev/data.txt"
 e = VEngine()
-e.load_project(filename)
+e.load_project(file_name)
+e.store_project("{}-2".format(file_name))
