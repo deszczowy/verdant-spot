@@ -44,8 +44,11 @@ class VSaver:
         self.data.append(VCommand.Stop)
     
     def __append_data(self, data: str, command: str) -> None:
-        self.data.append(data)
+        self.data.append(self.__sanitize_string(data))
         self.data.append(command)
+    
+    def __sanitize_string(self, input: str) -> str:
+        return input.replace("@", "\\@")
     
     def __store(self, file_name: str) -> None:
         print(file_name)

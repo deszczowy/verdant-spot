@@ -59,15 +59,15 @@ class VReader:
         self.__finalize_command()
     
     def __store_name(self) -> None:
-        self.project.Info.Name = self.data
+        self.project.Info.Name = self.__desanitize_string(self.data)
         self.__finalize_command()
 
     def __store_description(self) -> None:
-        self.project.Info.Description = self.data
+        self.project.Info.Description = self.__desanitize_string(self.data)
         self.__finalize_command()
     
     def __store_author(self) -> None:
-        self.project.Info.Author = self.data
+        self.project.Info.Author = self.__desanitize_string(self.data)
         self.__finalize_command()
     
     def __store_map_size(self) -> None:
@@ -97,6 +97,9 @@ class VReader:
     def __store_point_in_current_object(self)-> None:
         self.project.store_point_in_last_object_of_layer_based_on_datastring(self.layer_index, self.data)
         self.__finalize_command()
+    
+    def __desanitize_string(self, input: str) -> str:
+        return input.replace("\\@", "@")
     
     def print_debug(self) -> None:
         print(self.project.to_debug())
