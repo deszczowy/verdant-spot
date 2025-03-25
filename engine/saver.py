@@ -11,7 +11,7 @@ class VSaver:
         self.__store_dictionaries(project_data)
         self.__store_objects(project_data)
         self.__finish()
-        self.__store()
+        self.__store(file_name)
     
     def __start(self) -> None:
         self.data.append(VCommand.VerdantSpotStart)
@@ -47,5 +47,10 @@ class VSaver:
         self.data.append(data)
         self.data.append(command)
     
-    def __store(self) -> None:
+    def __store(self, file_name: str) -> None:
+        print(file_name)
         print(self.data)
+        with open(file_name, 'w') as project_file:
+            for line in self.data:
+                project_file.write(line)
+                project_file.write('\n')
