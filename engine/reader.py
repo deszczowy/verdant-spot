@@ -55,7 +55,7 @@ class VReader:
     def __jump_to_next_layer(self) -> None:
         self.layer_index += 1
         if self.layer_index >= len(self.project.Layers):
-            print("EXCEPTION")
+            self.layer_index = -1
         self.__finalize_command()
     
     def __store_name(self) -> None:
@@ -77,17 +77,6 @@ class VReader:
     def __store_map_center(self) -> None:
         self.project.Info.store_map_center_from_datastring(self.data)
         self.__finalize_command()
-    
-    def __store_border(self, edge: str) -> None:
-        try:
-            value = float(self.data)
-            match edge:
-                case "L": self.project.Info.Border.Left = value
-                case "R": self.project.Info.Border.Right = value
-                case "T": self.project.Info.Border.Top = value
-                case "B": self.project.Info.Border.Bottom = value
-        finally:
-            self.__finalize_command()
     
     def __store_layer_dictionary_entry(self) -> None:
         self.project.add_layer_type_entry_from_datastring(self.data)

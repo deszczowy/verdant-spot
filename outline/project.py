@@ -43,11 +43,17 @@ class VProject(VBase):
             self.Layers.append(layer)
     
     def store_point_in_last_object_of_layer_based_on_datastring(self, layer_id: int, datastring: str) -> None:
+        if layer_id == -1:
+            return
+
         p = VPoint()
         p.from_data_string(datastring)
         self.Layers[layer_id].Objects[-1].Points.append(p)
 
     def store_object_in_layer_based_on_datastring(self, layer_id: int, datastring: str) -> None:
+        if layer_id == -1:
+            return
+
         o = VObject()
         o.set_id(self.new_id())
         o.from_data_string(datastring)

@@ -27,3 +27,6 @@ class VObject(VBase):
         for p in self.Points:
             d += "\n{}".format(p.to_debug())
         return d
+    
+    def to_store(self) -> str:
+        return "{}:{}".format(self.Kind, self.Label)

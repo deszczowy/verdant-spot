@@ -64,5 +64,6 @@ TR:Czereśnia
 @OB
 100.00,250.00
 @PT
+@NL
 @FN
 Tutaj już nic nie widać

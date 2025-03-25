@@ -9,6 +9,7 @@ class VSaver:
         self.__start()
         self.__store_project_info(project_data)
         self.__store_dictionaries(project_data)
+        self.__store_objects(project_data)
         self.__finish()
         self.__store()
     
@@ -30,6 +31,14 @@ class VSaver:
     def __store_dictionary(self, dictionary: VList, command: str) -> None:
         for entry in dictionary:
             self.__append_data(entry.to_store(), command)
+    
+    def __store_objects(self, project_data: VProject) -> None:
+        for layer in project_data.Layers:
+            for obj in layer.Objects:
+                self.__append_data(obj.to_store(), VCommand.Object)
+                for point in obj.Points:
+                    self.__append_data(point.to_store(), VCommand.Point)
+            self.data.append(VCommand.NextLayer)
     
     def __finish(self) -> None:
         self.data.append(VCommand.Stop)
