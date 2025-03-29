@@ -1,3 +1,3 @@
 ICONS = {
-    "DEFAULT": """<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="25" stroke="white" stroke-width="10" fill="none"/></svg>"""
+    "DEFAULT": """<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="25" stroke="black" stroke-width="10" fill="none"/></svg>"""
 }

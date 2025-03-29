@@ -1,8 +1,7 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
+from PyQt5.QtWidgets import QWidget, QVBoxLayout
 from PyQt5.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve
-from PyQt5.QtGui import QFont, QCursor, QPainter, QPixmap
-from svg import as_icon
-from .icons import ICONS
+from PyQt5.QtGui import QCursor, QPainter, QPixmap
+from .tools import *
 
 class VMainMenu(QWidget):
     def __init__(self, parent=None):
@@ -12,7 +11,8 @@ class VMainMenu(QWidget):
         self.__setup_view_attributes()
         self.__start_timer()
         self.__setup_animation()
-        self.__rest() # temp
+        self.__create_buttons()
+        self.__stack_components()
     
     def __start_timer(self) -> None:
         self.__timer.timeout.connect(self.__check_mouse_position)
@@ -32,35 +32,23 @@ class VMainMenu(QWidget):
         self.animation.setDuration(300)
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
 
+    def __create_buttons(self) -> None:
+        self.new_btn = create_menu_button("New")
+        self.open_btn = create_menu_button("Open")
+        self.save_btn = create_menu_button("Save")
+        self.settings_btn = create_menu_button("Settings")
+    
+    def __stack_components(self) -> None:
+        l = QVBoxLayout(self)
+        l.setContentsMargins(0, 0, 0, 0)
+        l.setSpacing(0)
+        
+        l.addWidget(self.new_btn)
+        l.addWidget(self.open_btn)
+        l.addWidget(self.save_btn)
+        l.addWidget(self.settings_btn)
 
-    def __rest(self):
-
-        # Przyciski w menu
-        menu_layout = QVBoxLayout(self)
-        menu_layout.setContentsMargins(0, 0, 0, 0)
-        menu_layout.setSpacing(0)
-        buttons = ["New", "Open", "Save", "Help"]
-        for btn_text in buttons:
-            btn = QPushButton(btn_text)
-            btn.setStyleSheet("""
-                QPushButton {
-                    color: red;
-                    border: none;
-                    padding: 10px;
-                    text-align: left;
-                }
-                QPushButton:hover {
-                    background-color: darkred;
-                }
-            """)
-            icon = as_icon(ICONS["DEFAULT"])
-            font = QFont()
-            font.setBold(True)
-            btn.setFont(font)
-            btn.setIcon(icon)
-            ##btn.clicked.connect(self.btn_click)
-            menu_layout.addWidget(btn)
-        menu_layout.addStretch()
+        l.addStretch()
 
     def reposition(self):
         if self.parent():
