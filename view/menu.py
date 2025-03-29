@@ -7,23 +7,33 @@ from .icons import ICONS
 class VMainMenu(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.__timer = QTimer(self)
+
+        self.__setup_view_attributes()
+        self.__start_timer()
+        self.__setup_animation()
+        self.__rest() # temp
+    
+    def __start_timer(self) -> None:
+        self.__timer.timeout.connect(self.__check_mouse_position)
+        self.__timer.start(50)
+
+    def __setup_view_attributes(self) -> None:
         self.original_pixmap = QPixmap("res/menu.png")
+        self.setAttribute(Qt.WA_TranslucentBackground)
         self.setObjectName("MenuPanel")
         self.current_width = 40
         self.setMinimumWidth(self.current_width)
-        self.setMaximumWidth(self.current_width)  # Początkowa szerokość
-
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.check_mouse_position)
-        self.timer.start(50)
-
+        self.setMaximumWidth(self.current_width)
         self.setMouseTracking(True)
-
+    
+    def __setup_animation(self) -> None:
         self.animation = QPropertyAnimation(self, b"maximumWidth")
         self.animation.setDuration(300)
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
-    
+
+
+    def __rest(self):
 
         # Przyciski w menu
         menu_layout = QVBoxLayout(self)
@@ -53,26 +63,19 @@ class VMainMenu(QWidget):
         menu_layout.addStretch()
 
     def reposition(self):
-        """Dopasowanie nakładki do lewej strony okna"""
         if self.parent():
-            print("repos")
             parent_height = self.parent().height()
             self.setGeometry(0, 0, self.current_width, parent_height)
-            #self.setMaximumWidth(self.current_width)
             self.animation.setStartValue(self.width())
             self.animation.setEndValue(self.current_width)
             self.animation.start()
-            #self.setFixedWidth(self.current_width)
-            #self.update()
             self.raise_()
-            
 
     def paintEvent(self, event):
         painter = QPainter(self)
         w = self.width()
         h = self.height()
 
-        # Skalowanie z zachowaniem proporcji do wysokości widgetu
         aspect_ratio = self.original_pixmap.width() / self.original_pixmap.height()
         scaled_width = int(h * aspect_ratio)
 
@@ -85,28 +88,16 @@ class VMainMenu(QWidget):
             painter.drawPixmap(x, 0, scaled_pixmap)
             x += scaled_width
 
-    def check_mouse_position(self):
+    def __check_mouse_position(self):
         pos = self.mapFromGlobal(QCursor.pos())
         current_max_width = self.maximumWidth()
 
-        print("cmw {}, caw {}, pos {}".format(current_max_width, self.current_width, pos))
         if pos.x() < 0 or pos.y() < 0:
             return
 
         if pos.x() <= 40 and self.current_width == 40:
             self.current_width = 200
-            #self.animation.setStartValue(self.width())
-            #self.animation.setEndValue(200)
-            #self.animation.start()
-            #self.raise_()  # Ustawia menu nad main
         elif (pos.x() > 200 or pos.x() < 0 or
               pos.y() < 0 or pos.y() > self.height()) and self.current_width == 200:
             self.current_width = 40
-            #self.animation.setStartValue(self.width())
-            #self.animation.setEndValue(40)
-            #self.animation.start()
         self.reposition()
-        #self.setMaximumWidth(self.current_width)
-        #self.setFixedWidth(self.current_width)
-        #self.update()
-        #self.raise_()
