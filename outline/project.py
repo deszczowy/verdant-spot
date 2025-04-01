@@ -30,11 +30,18 @@ class VProject(VBase):
 
     def sort_layers_definitions(self) -> None:
         self.LayersDefinitions.sort(key=lambda x: x.Position)
+    
+    def create_virtual_layer(self) -> None:
+        layer = VLayer()
+        layer.set_virtual()
+        self.Layers.append(layer)
+        print("+virt")
 
     ### Builders
 
     def rebuild_layers_from_dictionary(self) -> None:
         self.Layers = VList()
+        print("rebuild")
 
         for layer_definition in self.LayersDefinitions:
             layer = VLayer()

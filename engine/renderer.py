@@ -1,5 +1,5 @@
 from outline import VProject, VLayer
-from svg import SvgDocument, SvgLayer, SvgCoordinate
+from svg import SvgDocument, SvgLayer, SvgCoordinate, SvgGrid
 
 class VRenderer:
 
@@ -34,6 +34,18 @@ class VRenderer:
         self.document = svg.render(self.project)
     
     def render_layer(self, layer):
-        svg = SvgLayer()
-        self.layers[layer.id()] = svg.render(layer, self.coordinate)
+        if layer.IsVirtual:
+            svg = SvgGrid()
+            self.layers[layer.id()] = svg.generate(
+                width=self.project.Info.Size.X,
+                height=self.project.Info.Size.Y,
+                center_x=0.00,
+                center_y=0.00,
+                grid_spacing=50,
+                coordinate_system=self.coordinate
+            )
+            print("virt")
+        else:
+            svg = SvgLayer()
+            self.layers[layer.id()] = svg.render(layer, self.coordinate)
         

@@ -51,6 +51,7 @@ class VReader:
 
     def __stop(self) -> None:
         self.work = False
+        self.project.create_virtual_layer()
 
     def __jump_to_next_layer(self) -> None:
         self.layer_index += 1

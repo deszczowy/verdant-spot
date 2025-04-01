@@ -6,6 +6,7 @@ class VLayer(VBase):
 
     def __init__(self):
         super().__init__()
+        self.IsVirtual = False
         self.Label = ""
         self.Objects: VList[VObject] = []
     
@@ -18,8 +19,16 @@ class VLayer(VBase):
         self.Label = label.strip()
         if self.Label != "":
             self._set_valid()
+    
+    def set_virtual(self) -> None:
+        self.IsVirtual = True
+        self.set_id(-999)
+        self._set_valid()
 
     def to_debug(self) -> str:
+        if self.IsVirtual:
+            return "++virtual, id={}".format(self.id())
+
         od = ""
         for o in self.Objects:
             od += "\n{}".format(o.to_debug())
