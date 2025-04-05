@@ -36,18 +36,3 @@ class SvgGrid:
         svg += f'<circle cx="{c0[0]}" cy="{c0[1]}" r="3" fill="none" stroke="black" stroke-width="0.1" />'
         svg += '</g>'
         return svg
-
-"""
-s = SvgGrid().generate(
-        width=3000,          # szerokość w mm
-        height=1000,          # wysokość w mm
-        center_x=100,        # punkt przecięcia osi X
-        center_y=100,        # punkt przecięcia osi Y
-        grid_spacing=100,    # gęstość siatki (co ile mm)
-)
-filename = "grid-x.svg"
-
-with open(filename, 'w', encoding='utf-8') as f:
-    f.write(s)
-    print(f"Plik SVG został wygenerowany jako: {filename}")
-"""

@@ -1,7 +1,9 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
 from PyQt5.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QCursor, QPainter, QPixmap
 from .tools import *
+from .icons import ICONS
+from svg import as_label
 
 class VMainMenu(QWidget):
     def __init__(self, parent=None):
@@ -11,6 +13,7 @@ class VMainMenu(QWidget):
         self.__setup_view_attributes()
         self.__start_timer()
         self.__setup_animation()
+        self.__create_logo()
         self.__create_buttons()
         self.__stack_components()
     
@@ -32,6 +35,10 @@ class VMainMenu(QWidget):
         self.animation.setDuration(300)
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
 
+    def __create_logo(self) -> None:
+        svg_data = ICONS["LOGO"]
+        self.logo = as_label(svg_data, 200, 100)
+
     def __create_buttons(self) -> None:
         self.new_btn = create_menu_button("New")
         self.open_btn = create_menu_button("Open")
@@ -43,6 +50,9 @@ class VMainMenu(QWidget):
         l.setContentsMargins(0, 0, 0, 0)
         l.setSpacing(0)
         
+        l.addStretch()
+        
+        l.addWidget(self.logo)
         l.addWidget(self.new_btn)
         l.addWidget(self.open_btn)
         l.addWidget(self.save_btn)
