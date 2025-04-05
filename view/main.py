@@ -6,6 +6,7 @@ from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from .preview import MapPreview
 
 from .menu import VMainMenu
+from .header import VHeader
 
 class VMainView(QMainWindow):
 
@@ -33,6 +34,7 @@ class VMainView(QMainWindow):
         # Menu boczne
         self.menu_widget = VMainMenu(parent=self.window_container)
         self.menu_widget.reposition()
+        self.menu_widget.new_btn.clicked.connect(self.btn_click)
         
 
 
@@ -43,14 +45,10 @@ class VMainView(QMainWindow):
         self.content_layout.setSpacing(0)
 
         # Pasek statusu
-        self.status_bar = QWidget()
-        self.status_bar.setFixedHeight(40)
-        self.status_bar.setStyleSheet("background-color: gray;")
-        self.status_label = QLabel("Status")
-        self.status_label.setAlignment(Qt.AlignLeft)
-        status_layout = QHBoxLayout(self.status_bar)
-        status_layout.addWidget(self.status_label)
-        status_layout.setContentsMargins(5, 10, 5, 10)
+        self.status_bar = VHeader()
+        
+        
+        
 
         # Główny obszar
         self.main_area = MapPreview()
