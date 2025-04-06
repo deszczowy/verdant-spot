@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout,
                             QComboBox, QLineEdit, QTextEdit, QPushButton,
                             QMessageBox, QHBoxLayout)
+from outline import VLayer, VObject
 
 class VObjectForm(QWidget):
     def __init__(self):
@@ -45,7 +46,7 @@ class VObjectForm(QWidget):
         self.setLayout(layout)
 
     def clear_form(self):
-        self.layer_combo.setCurrentIndex(0)
+        self.layer_name.setText("")
         self.type_combo.setCurrentIndex(0)
         self.name_input.clear()
         self.coords_input.clear()
@@ -91,6 +92,27 @@ class VObjectForm(QWidget):
     def add_data(self):
         self.add()
         self.close()
+    
+    def prepare_form(self, parent: VLayer, data: VObject) -> None:
+        if data is None:
+            self.prepare_new_object(parent)
+        elif isinstance(data, VObject):
+            self.prepare_for_edit(parent, data)
+
+    def prepare_new_object(self, parent: VLayer) -> None:
+        print("New")
+        self.clear_form()
+        self.layer_name.setText(parent.Label)
+    
+    def prepare_for_edit(self, parent: VLayer, data: VObject) -> None:
+        print("Edit")
+        self.clear_form()
+        self.layer_name.setText(parent.Label)
+        self.name_input.setText(data.Label)
+        coords = ""
+        for p in data.Points:
+            coords += "{}\n".format(p.to_store())
+        self.coords_input.setText(coords)
     
     def add(self):
         # Pobranie danych z formularza

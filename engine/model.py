@@ -15,6 +15,9 @@ class VModel(QAbstractItemModel):
         # model tree from underlying project.
         # for every layer, and layer objects
         for layer in self.project.Layers:
+            if layer.IsVirtual:
+                continue
+
             layer_item = VItem(layer, self.root)
             self.root.appendChild(layer_item)
             for obj in layer.Objects:
