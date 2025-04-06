@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QTreeView, QPushButton
+from .objectform import VObjectForm
 
 class VDataDialog(QDialog):
     def __init__(self):
@@ -13,10 +14,10 @@ class VDataDialog(QDialog):
     
     def __data_views(self) -> QHBoxLayout:
         layout = QHBoxLayout()
-        self.tree_view = QTreeView()
-        #self.form = FormWidget()
-        layout.addWidget(self.tree_view)
-        #layout.addWidget(self.form)
+        self.tree = QTreeView()
+        self.form = VObjectForm()
+        layout.addWidget(self.tree)
+        layout.addWidget(self.form)
         return layout
 
     def __button_bar(self) -> QHBoxLayout:
