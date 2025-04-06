@@ -99,3 +99,4 @@ class VMainView(QMainWindow):
     @pyqtSlot(QAbstractItemModel)
     def update_model(self, model: QAbstractItemModel) -> None:
         self.dialog.tree.setModel(model)
+        self.dialog.tree.selectionModel().selectionChanged.connect(self.dialog.selection_changed)

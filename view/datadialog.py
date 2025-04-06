@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QTreeView, QPushButton
+from PyQt5.QtCore import Qt
 from .objectform import VObjectForm
 
 class VDataDialog(QDialog):
@@ -30,3 +31,9 @@ class VDataDialog(QDialog):
     
     def __quit_button_click(self) -> None:
         self.hide()
+    
+    def selection_changed(self) -> None:
+        print("change!")
+        idx = self.tree.selectionModel().selectedIndexes()[0]
+        data = self.tree.model().data(idx, Qt.UserRole)
+        self.form.layer_name.setText(data.Label)

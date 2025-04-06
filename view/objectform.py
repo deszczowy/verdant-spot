@@ -11,9 +11,9 @@ class VObjectForm(QWidget):
     def init_ui(self):
         layout = QVBoxLayout()
 
-        self.layer_combo = QComboBox()
-        #self.layer_combo.addItems(self.layers.values())
-        layout.addWidget(self.layer_combo)
+        self.layer_name = QLineEdit()
+        self.layer_name.setEnabled(False)
+        layout.addWidget(self.layer_name)
 
         self.type_combo = QComboBox()
         #self.type_combo.addItems(self.object_types.values())
@@ -49,6 +49,10 @@ class VObjectForm(QWidget):
         self.type_combo.setCurrentIndex(0)
         self.name_input.clear()
         self.coords_input.clear()
+    
+    def fill_form(self, data) -> None:
+        self.clear_form()
+        self.layer_name = data
 
     def validate_coordinates(self, coords_text):
         lines = coords_text.strip().split('\n')

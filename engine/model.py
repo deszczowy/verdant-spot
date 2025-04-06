@@ -36,6 +36,8 @@ class VModel(QAbstractItemModel):
         item = index.internalPointer()
         if role == Qt.DisplayRole:
             return item.data.Label
+        elif role == Qt.UserRole:
+            return item.data
         return None
 
     def headerData(self, section, orientation, role):
@@ -56,7 +58,6 @@ class VModel(QAbstractItemModel):
         if not index.isValid():
             return QModelIndex()
         childItem = index.internalPointer()
-        print(childItem)
         parentItem = childItem.parent()
         if parentItem == self.root or parentItem is None:
             return QModelIndex()
