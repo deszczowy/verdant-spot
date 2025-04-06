@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
 from .preview import MapPreview
-
+from .datadialog import VDataDialog
 from .menu import VMainMenu
 from .header import VHeader
 
@@ -46,6 +46,7 @@ class VMainView(QMainWindow):
 
         # Pasek statusu
         self.status_bar = VHeader()
+        self.status_bar.data_button.clicked.connect(self.btn_data_dialog_click)
         
         
         
@@ -78,6 +79,10 @@ class VMainView(QMainWindow):
     def btn_click(self) -> None:
         name = "dev/data.txt"
         self.project_opened.emit(name)
+    
+    def btn_data_dialog_click(self) -> None:
+        dialog = VDataDialog()
+        dialog.exec_()
     
     @pyqtSlot(str)
     def update_title(self, new_title: str = None) -> None:

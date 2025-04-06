@@ -24,5 +24,6 @@ class VHeader(QWidget):
     
     def __build_toolbar(self) -> None:
         #self.layout.addStretch()
+        self.data_button = create_toolbar_button("+")
         self.layout.addWidget(self.status_label)
-        self.layout.addWidget(create_toolbar_button("+"))
+        self.layout.addWidget(self.data_button)
