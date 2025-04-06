@@ -15,6 +15,7 @@ class Supervisor:
         # Engine signals
         self.engine.signal_project_title_updated.connect(self.view.update_title)
         self.engine.signal_show_project_render.connect(self.view.update_preview)
+        self.engine.signal_connect_data_model.connect(self.view.update_model)
 
         # View signals
         self.view.project_opened.connect(self.engine.load_project)

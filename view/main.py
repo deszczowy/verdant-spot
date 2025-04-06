@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLabel
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QAbstractItemModel
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
 from .preview import MapPreview
@@ -16,6 +16,7 @@ class VMainView(QMainWindow):
         super().__init__()
         self.setWindowTitle("VerdantSpot")
         self.setGeometry(100, 100, 800, 600)
+        self.dialog = VDataDialog()
         self._build_ui()
     
     def _build_ui(self):
@@ -81,8 +82,7 @@ class VMainView(QMainWindow):
         self.project_opened.emit(name)
     
     def btn_data_dialog_click(self) -> None:
-        dialog = VDataDialog()
-        dialog.exec_()
+        self.dialog.exec_()
     
     @pyqtSlot(str)
     def update_title(self, new_title: str = None) -> None:
@@ -95,3 +95,7 @@ class VMainView(QMainWindow):
     def update_preview(self, svg_data: str) -> None:
         map = bytearray(svg_data, encoding='utf-8')
         self.main_area.load(map)
+    
+    @pyqtSlot(QAbstractItemModel)
+    def update_model(self, model: QAbstractItemModel) -> None:
+        self.dialog.tree.setModel(model)
