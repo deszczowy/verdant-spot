@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout,
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel,
                             QComboBox, QLineEdit, QTextEdit, QPushButton,
                             QMessageBox, QHBoxLayout)
 from outline import VLayer, VObject
@@ -12,8 +12,7 @@ class VObjectForm(QWidget):
     def init_ui(self):
         layout = QVBoxLayout()
 
-        self.layer_name = QLineEdit()
-        self.layer_name.setEnabled(False)
+        self.layer_name = QLabel()
         layout.addWidget(self.layer_name)
 
         self.type_combo = QComboBox()
@@ -30,23 +29,26 @@ class VObjectForm(QWidget):
 
         button_layout = QHBoxLayout()
 
-        self.clear_button = QPushButton("Wyczyść")
+        self.clear_button = QPushButton("Clear")
         self.clear_button.clicked.connect(self.clear_form)
         button_layout.addWidget(self.clear_button)
 
-        self.next_button = QPushButton("Następny")
-        self.next_button.clicked.connect(self.next_object)
-        button_layout.addWidget(self.next_button)
+        self.remove_button = QPushButton("Remove")
+        self.remove_button.clicked.connect(self.remove_object)
+        button_layout.addWidget(self.remove_button)
 
-        self.add_button = QPushButton("Dodaj")
+        self.add_button = QPushButton("Add")
         self.add_button.clicked.connect(self.add_data)
         button_layout.addWidget(self.add_button)
+
+        self.update_button = QPushButton("Update")
+        #self.update_button.clicked.connect(self.add_data)
+        button_layout.addWidget(self.update_button)
 
         layout.addLayout(button_layout)
         self.setLayout(layout)
 
     def clear_form(self):
-        self.layer_name.setText("")
         self.type_combo.setCurrentIndex(0)
         self.name_input.clear()
         self.coords_input.clear()
@@ -85,26 +87,32 @@ class VObjectForm(QWidget):
             coordinates.append((x, y, i))
         return coordinates
 
-    def next_object(self):
-        self.add()
-        self.clear_form()
+    def remove_object(self):
+        pass
 
     def add_data(self):
         self.add()
         self.close()
     
+    def __hide_buttons(self) -> None:
+        self.add_button.hide()
+        self.update_button.hide()
+        self.remove_button.hide()
+    
     def prepare_form(self, parent: VLayer, data: VObject) -> None:
         if data is None:
-            self.prepare_new_object(parent)
+            self.__prepare_new_object(parent)
         elif isinstance(data, VObject):
-            self.prepare_for_edit(parent, data)
+            self.__prepare_for_edit(parent, data)
 
-    def prepare_new_object(self, parent: VLayer) -> None:
+    def __prepare_new_object(self, parent: VLayer) -> None:
         print("New")
         self.clear_form()
         self.layer_name.setText(parent.Label)
+        self.__hide_buttons()
+        self.add_button.show()
     
-    def prepare_for_edit(self, parent: VLayer, data: VObject) -> None:
+    def __prepare_for_edit(self, parent: VLayer, data: VObject) -> None:
         print("Edit")
         self.clear_form()
         self.layer_name.setText(parent.Label)
@@ -113,6 +121,9 @@ class VObjectForm(QWidget):
         for p in data.Points:
             coords += "{}\n".format(p.to_store())
         self.coords_input.setText(coords)
+        self.__hide_buttons()
+        self.update_button.show()
+        self.remove_button.show()
     
     def add(self):
         # Pobranie danych z formularza

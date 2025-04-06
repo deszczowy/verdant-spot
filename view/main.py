@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLabel
-from PyQt5.QtCore import Qt, QAbstractItemModel
+from PyQt5.QtCore import Qt, QModelIndex, QAbstractItemModel, QItemSelectionModel
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
 from .preview import MapPreview
@@ -100,3 +100,9 @@ class VMainView(QMainWindow):
     def update_model(self, model: QAbstractItemModel) -> None:
         self.dialog.tree.setModel(model)
         self.dialog.tree.selectionModel().selectionChanged.connect(self.dialog.selection_changed)
+
+        first_index = model.index(0, 0, QModelIndex())
+        if first_index.isValid():
+            self.dialog.tree.setCurrentIndex(first_index)
+            self.dialog.tree.selectionModel().select(first_index, QItemSelectionModel.Select | QItemSelectionModel.Rows)
+       
