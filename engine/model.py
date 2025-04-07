@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt, QModelIndex, QAbstractItemModel
-from outline import VProject, VLayer
+from outline import VProject, VLayer, VObject
 from .item import VItem
 
 
@@ -84,6 +84,21 @@ class VModel(QAbstractItemModel):
         parentItem.appendChild(obj_item)  # add to model tree
         self.endInsertRows()
 
+    def update(self, index, new_data):
+        if not index.isValid():
+            return
+
+        item = index.internalPointer()
+        if not isinstance(item.data, VObject):
+            return
+
+        print("update!")
+        item.data.Label = new_data.Label
+        item.data.Kind = new_data.Kind
+        item.data.Points = []
+        for p in new_data.Points:
+            item.data.Points.append(p)
+        self.dataChanged.emit(index, index)
         print(self.project.to_debug())
 
     def remove(self, parentIndex, row):

@@ -21,6 +21,7 @@ class VDataDialog(QDialog):
         layout.addWidget(self.tree)
         layout.addWidget(self.form)
         self.form.add_button.clicked.connect(self.add_action)
+        self.form.update_button.clicked.connect(self.update_action)
         return layout
 
     def __button_bar(self) -> QHBoxLayout:
@@ -61,5 +62,20 @@ class VDataDialog(QDialog):
         obj = self.form.gather()
 
         self.tree.model().add(index, obj)
+        self.tree.expand(index)
+        self.form.clear_form()
+    
+    def update_action(self) -> None:
+        index = self.tree.currentIndex()
+        if not index.isValid():
+            return
+
+        item = index.internalPointer()
+        if not isinstance(item.data, VObject):
+            return
+
+        obj = self.form.gather()
+
+        self.tree.model().update(index, obj)
         self.tree.expand(index)
         self.form.clear_form()
