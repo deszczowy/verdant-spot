@@ -71,7 +71,7 @@ class VModel(QAbstractItemModel):
             return Qt.NoItemFlags
         return Qt.ItemIsEnabled | Qt.ItemIsSelectable
 
-    def addAObiekt(self, parentIndex, new_obj):
+    def add(self, parentIndex, new_obj):
         if not parentIndex.isValid():
             return
         parentItem = parentIndex.internalPointer()
@@ -84,7 +84,9 @@ class VModel(QAbstractItemModel):
         parentItem.appendChild(obj_item)  # add to model tree
         self.endInsertRows()
 
-    def removeAObiekt(self, parentIndex, row):
+        print(self.project.to_debug())
+
+    def remove(self, parentIndex, row):
         if not parentIndex.isValid():
             return
         parentItem = parentIndex.internalPointer()

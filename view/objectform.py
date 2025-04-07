@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel,
                             QComboBox, QLineEdit, QTextEdit, QPushButton,
                             QMessageBox, QHBoxLayout)
-from outline import VLayer, VObject
+from outline import VLayer, VObject, VPoint
 
 class VObjectForm(QWidget):
     def __init__(self):
@@ -38,7 +38,6 @@ class VObjectForm(QWidget):
         button_layout.addWidget(self.remove_button)
 
         self.add_button = QPushButton("Add")
-        self.add_button.clicked.connect(self.add_data)
         button_layout.addWidget(self.add_button)
 
         self.update_button = QPushButton("Update")
@@ -90,10 +89,6 @@ class VObjectForm(QWidget):
     def remove_object(self):
         pass
 
-    def add_data(self):
-        self.add()
-        self.close()
-    
     def __hide_buttons(self) -> None:
         self.add_button.hide()
         self.update_button.hide()
@@ -125,10 +120,8 @@ class VObjectForm(QWidget):
         self.update_button.show()
         self.remove_button.show()
     
-    def add(self):
+    def gather(self):
         # Pobranie danych z formularza
-        layer_id = list(self.layers.keys())[self.layer_combo.currentIndex()]
-        type_id = list(self.object_types.keys())[self.type_combo.currentIndex()]
         name = self.name_input.text().strip()
         coords_text = self.coords_input.toPlainText()
 
@@ -137,11 +130,18 @@ class VObjectForm(QWidget):
         if invalid_lines:
             QMessageBox.warning(self, "Błąd",
                               f"Błędne współrzędne w liniach: {', '.join(map(str, invalid_lines))}")
-            return
+            return VObject()
 
         # Tworzenie obiektu danych
         coordinates = self.parse_coordinates(coords_text)
 
-        # Pokazanie informacji o utworzonym obiekcie
-        QMessageBox.information(self, "Sukces",
-                              f"Utworzono obiekt:\n{str(self.last_object)}")
+        obj =VObject()
+        obj.from_data(name, "X")
+        for c in coordinates:
+            p = VPoint()
+            p.from_data(c[0], c[1])
+            obj.Points.append(p)
+        
+        print(obj.to_debug())
+        return obj
+        

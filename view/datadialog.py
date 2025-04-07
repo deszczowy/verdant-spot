@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QTreeView, QPushButton
 from PyQt5.QtCore import Qt
-from outline import VObject
+from outline import VObject, VLayer
 from .objectform import VObjectForm
 
 class VDataDialog(QDialog):
@@ -20,6 +20,7 @@ class VDataDialog(QDialog):
         self.form = VObjectForm()
         layout.addWidget(self.tree)
         layout.addWidget(self.form)
+        self.form.add_button.clicked.connect(self.add_action)
         return layout
 
     def __button_bar(self) -> QHBoxLayout:
@@ -43,3 +44,22 @@ class VDataDialog(QDialog):
             self.form.prepare_form(parent_item.data, item.data)
         else:
             self.form.prepare_form(item.data, None)
+    
+    def add_action(self) -> None:
+        index = self.tree.currentIndex()
+        if not index.isValid():
+            return
+
+        item = index.internalPointer()
+        if isinstance(item.data, VObject):
+            index = self.model.parent(index)
+            item = index.internalPointer()
+
+        if not isinstance(item.data, VLayer):
+            return
+
+        obj = self.form.gather()
+
+        self.tree.model().add(index, obj)
+        self.tree.expand(index)
+        self.form.clear_form()
