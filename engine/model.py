@@ -109,7 +109,7 @@ class VModel(QAbstractItemModel):
             return
         if 0 <= row < parentItem.childCount():
             self.beginRemoveRows(parentIndex, row, row)
-            obj_item = parentItem.childItems[row]
+            obj_item = parentItem.child(row)
             parentItem.data.Objects.remove(obj_item.data)
-            del parentItem.childItems[row]
+            del parentItem.children[row]
             self.endRemoveRows()

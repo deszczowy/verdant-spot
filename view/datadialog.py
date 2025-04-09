@@ -22,6 +22,7 @@ class VDataDialog(QDialog):
         layout.addWidget(self.form)
         self.form.add_button.clicked.connect(self.add_action)
         self.form.update_button.clicked.connect(self.update_action)
+        self.form.remove_button.clicked.connect(self.remove_action)
         return layout
 
     def __button_bar(self) -> QHBoxLayout:
@@ -78,4 +79,19 @@ class VDataDialog(QDialog):
 
         self.tree.model().update(index, obj)
         self.tree.expand(index)
+        self.form.clear_form()
+
+    def remove_action(self) -> None:
+        index = self.tree.currentIndex()
+        if not index.isValid():
+            return
+    
+        item = index.internalPointer()
+        if not isinstance(item.data, VObject):
+            return
+
+        parent_index = self.tree.model().parent(index)
+        row = index.row()
+        self.tree.model().remove(parent_index, row)
+        self.tree.expand(parent_index)
         self.form.clear_form()
