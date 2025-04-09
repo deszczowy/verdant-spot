@@ -136,7 +136,7 @@ class VObjectForm(QWidget):
         coordinates = self.parse_coordinates(coords_text)
 
         obj =VObject()
-        obj.from_data(name, "X")
+        obj.from_data(name, "SH")
         for c in coordinates:
             p = VPoint()
             p.from_data(c[0], c[1])

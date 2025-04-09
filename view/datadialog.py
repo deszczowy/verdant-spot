@@ -1,9 +1,13 @@
 from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QTreeView, QPushButton
 from PyQt5.QtCore import Qt
+from PyQt5.QtCore import pyqtSignal
 from outline import VObject, VLayer
 from .objectform import VObjectForm
 
 class VDataDialog(QDialog):
+
+    v_project_changed = pyqtSignal()
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Data")
@@ -65,6 +69,7 @@ class VDataDialog(QDialog):
         self.tree.model().add(index, obj)
         self.tree.expand(index)
         self.form.clear_form()
+        self.v_project_changed.emit()
     
     def update_action(self) -> None:
         index = self.tree.currentIndex()
@@ -80,6 +85,7 @@ class VDataDialog(QDialog):
         self.tree.model().update(index, obj)
         self.tree.expand(index)
         self.form.clear_form()
+        self.v_project_changed.emit()
 
     def remove_action(self) -> None:
         index = self.tree.currentIndex()
@@ -95,3 +101,4 @@ class VDataDialog(QDialog):
         self.tree.model().remove(parent_index, row)
         self.tree.expand(parent_index)
         self.form.clear_form()
+        self.v_project_changed.emit()

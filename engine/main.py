@@ -29,6 +29,12 @@ class VEngine(QObject):
         self.signal_project_title_updated.emit(self.project_data.Info.Name)
         self.signal_show_project_render.emit(self.renderer.get())
         self.signal_connect_data_model.emit(self.project_model)
+    
+    @pyqtSlot()
+    def refresh_data(self) -> None:
+        print("refresh")
+        self.renderer.render()
+        self.signal_show_project_render.emit(self.renderer.get())
 
     @pyqtSlot(str)
     def store_project(self, project_file_path: str) -> None:
