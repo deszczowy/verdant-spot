@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLabel
+from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLabel, QFileDialog
 from PyQt5.QtCore import Qt, QModelIndex, QAbstractItemModel, QItemSelectionModel
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
@@ -11,6 +11,7 @@ from .header import VHeader
 class VMainView(QMainWindow):
 
     project_opened = pyqtSignal(str)
+    signal_saving_project = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -36,6 +37,7 @@ class VMainView(QMainWindow):
         self.menu_widget = VMainMenu(parent=self.window_container)
         self.menu_widget.reposition()
         self.menu_widget.new_btn.clicked.connect(self.btn_click)
+        self.menu_widget.save_btn.clicked.connect(self.save_as)
         
 
 
@@ -105,4 +107,9 @@ class VMainView(QMainWindow):
         if first_index.isValid():
             self.dialog.tree.setCurrentIndex(first_index)
             self.dialog.tree.selectionModel().select(first_index, QItemSelectionModel.Select | QItemSelectionModel.Rows)
-       
+
+    def save_as(self) -> None:
+        fd = QFileDialog(self)
+        fd.setFileMode(QFileDialog.AnyFile)
+        file_name = fd.getSaveFileName(self, "Open Verdant Project", "~/", "Verdant Spot Project File (*.vp)")
+        self.signal_saving_project.emit(file_name[0])

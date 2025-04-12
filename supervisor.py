@@ -19,4 +19,5 @@ class Supervisor:
 
         # View signals
         self.view.project_opened.connect(self.engine.load_project)
+        self.view.signal_saving_project.connect(self.engine.store_project)
         self.view.dialog.v_project_changed.connect(self.engine.refresh_data)

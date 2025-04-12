@@ -38,4 +38,22 @@ class VEngine(QObject):
 
     @pyqtSlot(str)
     def store_project(self, project_file_path: str) -> None:
-        VSaver().store(self.project_data, project_file_path)
+        print(project_file_path)
+        if self.project_file != "":
+            #opened
+            if self.project_file != project_file_path:
+                print("save as")
+                VSaver().store(self.project_data, project_file_path)
+                self.project_file = project_file_path
+            else:
+                print("regular save")
+                VSaver().store(self.project_data, self.project_file)
+        else:
+            # new project
+            if self.project_data is None:
+                print("no project")
+                self.signal_inform_user.emit("Open or create project")
+            else:
+                print("save new")
+                VSaver().store(self.project_data, project_file_path)
+                self.project_file = project_file_path
